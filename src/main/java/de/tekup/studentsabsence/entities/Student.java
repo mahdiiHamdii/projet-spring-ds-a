@@ -1,5 +1,6 @@
 package de.tekup.studentsabsence.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -28,8 +32,14 @@ public class Student implements Serializable {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate dob;
 
-    //TODO Complete Relations with other entities
-
+    @OneToOne(mappedBy = "student")
+    private Image image;
+    @OneToMany(mappedBy="student")
+    private List<Absence> absences;
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = false)
+    @JsonIgnore
+    private Group group;
 
 
 }
